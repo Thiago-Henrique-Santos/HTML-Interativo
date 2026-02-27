@@ -1,0 +1,117 @@
+:root {
+    --bg: #0b0e14;
+    --orange: #ff8c00;
+    --blue: #0066ff;
+    --text: #ffffff;
+}
+
+* {
+    box-sizing: border-box; 
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; 
+    padding: 20px;
+}
+
+/* --- Layout Mobile-First --- */
+.game-container {
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+    min-height: 90vh;
+}
+
+.toolbox {
+    width: 100%; 
+    background: #1c212b;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.workspace {
+    flex-grow: 1;
+    background: #151921;
+    border-radius: 15px;
+    padding: 20px;
+    border: 3px solid #333;
+}
+
+@media (min-width: 768px) {
+    .game-container {
+        flex-direction: row; 
+        gap: 30px;
+    }
+    .toolbox {
+        width: 300px; 
+        flex-shrink: 0;
+    }
+}
+
+/* --- Blocos Base --- */
+.block {
+    background: #2a2d35;
+    border-left: 5px solid var(--blue);
+    padding: 10px;
+    margin: 8px 0;
+    cursor: grab;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 40px;
+    user-select: none; 
+}
+
+.block:active { cursor: grabbing; }
+
+/* Evita que as spans de texto interfiram com o mouse ao arrastar */
+.tag-open, .tag-close {
+    pointer-events: none; 
+}
+
+/* --- Containers Lógica de Expansão --- */
+.container {
+    display: flex;
+    flex-direction: row; /* Linha única por padrão */
+    align-items: center;
+    gap: 8px; /* Espaço entre <> e </> */
+    border-left-color: var(--orange);
+    min-width: 100%; 
+}
+
+/* Quando um bloco entra, ele muda para coluna */
+.container.expanded {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+/* Recuo visual (indentação) para blocos filhos */
+.container.expanded > .block {
+    margin-left: 20px;
+    width: calc(100% - 20px);
+}
+
+/* --- Áreas de Drop --- */
+.main-dropzone, .container, #origin {
+    border: 2px dashed #444;
+    min-height: 100px;
+    transition: background 0.3s, border-color 0.3s;
+    border-radius: 8px;
+    padding: 10px; 
+}
+
+#origin {
+    border-color: transparent; /* Invisível na origem */
+    display: flex;
+    flex-direction: column;
+}
+
+.drop-hover {
+    background: rgba(255, 140, 0, 0.1) !important;
+    border-color: var(--orange) !important;
+}
